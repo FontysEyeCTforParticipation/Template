@@ -142,6 +142,7 @@ h6 {
 	font-weight: 500;
 	outline: 0;
 	display: block;
+	text-decoration: none;
 	&:hover {
 		background: #ccc;
 	}
@@ -246,6 +247,7 @@ p {
 			position: absolute;
 			top: 16px;
 			right: 0;
+			a,
 			button {
 				float: left;
 				margin-left: 16px;
@@ -256,4 +258,45 @@ p {
 section {
 	width: 960px;
 	margin: 0 auto;
+}
+#chat {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 300px;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0,0,0,.1),
+				0 5px 15px rgba(0,0,0,.1);
+	h2 {
+		padding: 20px;
+		font-size: 32px;
+		line-height: 92px;
+	}
+	ul.chats {
+		li {
+			line-height: 40px;
+			list-style: none;
+			padding: 0 20px;
+			font-size: 16px;
+			color: #444;
+			border-bottom: 1px solid #eee;
+			cursor: pointer;
+			span {
+				text-transform: uppercase;
+				border: 1px solid @color;
+				color: @color;
+				font-size: 12px;
+				font-weight: 700;
+				padding: 5px;
+				margin-right: 6px;
+			}
+			&:first-child {
+				border-top: 1px solid #eee;
+			}
+			&:hover {
+				background: #f6f6f6;
+			}
+		}
+	}
 }
