@@ -288,6 +288,7 @@ section {
 		width: 1000px;
 		border-collapse: collapse;
 		margin-left: -20px;
+		margin-bottom: 48px;
 		tr {
 			cursor: pointer;
 			th {
@@ -304,13 +305,67 @@ section {
 				color: #444;
 				h4 {
 					line-height: 24px;
+					span {
+						font-size: 12px;
+						text-transform: uppercase;
+						font-weight: 700;
+						padding: 5px;
+						margin-right: 6px;
+						position: relative;
+						top: -2px;
+						color: #fff;
+						&.urgency_low {
+							background: #ffff00;
+							color: #444;
+						}
+						&.urgency_normal {
+							background: #ff8000;
+						}
+						&.urgency_critical {
+							background: #ff0000;
+						}
+						&.closed {
+							background: #777;
+						}
+					}
 				}
 				h5 {
 					line-height: 24px;
 				}
 			}
+			&:last-child td {
+				border-bottom: 0;
+			}
 			& + tr:hover {
 				background: #f6f6f6;
+			}
+		}
+	}
+	ul.aidworkers {
+		margin: 20px -30px 48px -30px;
+		overflow: hidden;
+		li {
+			list-style: none;
+			background: #f6f6f6;
+			padding: 20px;
+			width: 50%;
+			float: left;
+			box-sizing: border-box;
+			border: 10px solid transparent;
+			background-clip: padding-box;
+			h4 {
+				line-height: 64px;
+			}
+			img {
+				width: 64px;
+				height: 64px;
+				float: left;
+				background: #eee;
+				margin-right: 20px;
+			}
+			button {
+				float: left;
+				margin-top: 20px;
 			}
 		}
 	}
