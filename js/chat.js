@@ -15,14 +15,17 @@ $(function() {
 		var months = [ "Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December" ];
 		var html = "";
 		var lastDate = null
+		var lastUser = null;
 		for(var x = 0; x < data.messages.length; x++) {
 			var date = new Date(data.messages[x].date);
-			var name = data.users[data.messages[x].user];
+			var user = data.messages[x].user;
+			var name = data.users[user];
 			if(!lastDate || (lastDate < date && lastDate.getDate() < date.getDate())) {
 				html += "<li class=\"date\"><time>" + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear() + "</time></li>";
 			}
 			lastDate = date;
-			html += "<li" + (name ? "" : " class=\"me\"") + ">" + (name ? "<header>" + name + "</header>" : "") + "<time>" + date.getHours() + ":" + date.getMinutes() + "</time>" + data.messages[x].content + "</li>";
+			html += "<li" + (name ? "" : " class=\"me\"") + ">" + (name && lastUser != user ? "<header>" + name + "</header>" : "") + "<time>" + date.getHours() + ":" + (date.getMinutes() < 10 ? "0" : "") + date.getMinutes() + "</time>" + data.messages[x].content + "</li>";
+			lastUser = user;
 		}
 		return html;
 	}
@@ -122,6 +125,18 @@ $(function() {
 			overlay: false,
 			plugins: {
 				draggable: true
+			},
+			overrides: {
+				open: function() {
+					var self = this;
+					this.elements.popup.on("mousedown touchstart", function() {
+						var scroll = self.elements.content.children(".conversation").scrollTop();
+						setTimeout(function() {
+							self.elements.content.children(".conversation").scrollTop(scroll);
+						}, 1);
+					});
+					return jPopup._super(this);
+				}
 			}
 		});
 		
