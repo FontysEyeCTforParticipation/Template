@@ -200,7 +200,6 @@ p {
 #header {
 	background: #eee;
 	background: svg-gradient(to right, desaturate(lighten(@color, 50%), 20%), #eee);
-	margin-bottom: 48px;
 	.header-content {
 		width: 960px;
 		margin: 0 auto;
@@ -261,11 +260,23 @@ p {
 section {
 	width: 960px;
 	margin: 0 auto;
-	h2 {
-		margin-bottom: 48px;
+	header {
+		margin: 48px 0;
+		overflow: hidden;
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			float: left;
+		}
+		button {
+			float: right;
+		}
 	}
 	form {
-		margin-bottom: 48px;
+		margin: 48px 0;
 		h4 {
 			float: left;
 			width: 300px;
@@ -287,8 +298,7 @@ section {
 	table.helprequests {
 		width: 1000px;
 		border-collapse: collapse;
-		margin-left: -20px;
-		margin-bottom: 48px;
+		margin: 48px -20px;
 		tr {
 			cursor: pointer;
 			th {
@@ -300,37 +310,37 @@ section {
 				padding: 20px;
 				border: 0;
 				border-bottom: 1px solid #eee;
-				line-height: 48px;
-				vertical-align: top;
+				vertical-align: middle;
 				color: #444;
-				h4 {
-					line-height: 24px;
-					span {
-						font-size: 12px;
-						text-transform: uppercase;
-						font-weight: 700;
-						padding: 5px;
-						margin-right: 6px;
-						position: relative;
-						top: -2px;
-						color: #fff;
-						&.urgency_low {
-							background: #ffff00;
-							color: #444;
-						}
-						&.urgency_normal {
-							background: #ff8000;
-						}
-						&.urgency_critical {
-							background: #ff0000;
-						}
-						&.closed {
-							background: #777;
-						}
+				white-space: nowrap;
+				h4 span {
+					font-size: 12px;
+					text-transform: uppercase;
+					font-weight: 700;
+					padding: 5px;
+					margin-right: 6px;
+					position: relative;
+					top: -2px;
+					color: #fff;
+					&.urgency_low {
+						background: #ffff00;
+						color: #444;
+					}
+					&.urgency_normal {
+						background: #ff8000;
+					}
+					&.urgency_critical {
+						background: #ff0000;
+					}
+					&.closed {
+						background: #777;
 					}
 				}
 				h5 {
 					line-height: 24px;
+				}
+				&:first-child {
+					width: 100%;
 				}
 			}
 			&:last-child td {
@@ -342,7 +352,7 @@ section {
 		}
 	}
 	ul.aidworkers {
-		margin: 20px -30px 48px -30px;
+		margin: 24px -30px 48px -30px;
 		overflow: hidden;
 		li {
 			list-style: none;
