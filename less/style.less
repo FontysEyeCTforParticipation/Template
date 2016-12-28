@@ -77,7 +77,7 @@ html {
 
 .h(@x) when (@x > 0) {
 	h@{x} {
-		font-size: 48px - (@x - 1) * 6;
+		font-size: 32px - (@x - 1) * 4;
 		color: lighten(@color, (@x - 1) * 5%);
 	}
 	.h(@x - 1);
@@ -91,16 +91,20 @@ h2 {
 
 h3,
 h4 {
-	font-weight: 400;
+	font-weight: 300;
 }
 
-h5,
-h6 {
+h5 {
 	font-weight: 500;
+}
+
+h6 {
+	font-weight: 700;
 }
 
 .input {
 	height: 46px;
+	width: 240px;
 	background: none;
 	border: 0;
 	border-bottom: 2px solid @color;
@@ -115,16 +119,16 @@ h6 {
 		border-bottom-color: @color;
 	}
 	&::-webkit-input-placeholder {
-	  color: lighten(@color, 30%);
+	  color: #ccc;
 	}
 	&::-moz-placeholder {
-	  color: lighten(@color, 30%);
+	  color: #ccc;
 	}
 	&:-ms-input-placeholder {
-	  color: lighten(@color, 30%);
+	  color: #ccc;
 	}
 	&:-moz-placeholder {
-	  color: lighten(@color, 30%);
+	  color: #ccc;
 	}
 }
 
@@ -203,7 +207,6 @@ p {
 		position: relative;
 		h1 {
 			padding: 20px 0;
-			font-size: 32px;
 			line-height: 92px;
 		}
 		nav {
@@ -258,6 +261,59 @@ p {
 section {
 	width: 960px;
 	margin: 0 auto;
+	h2 {
+		margin-bottom: 48px;
+	}
+	form {
+		margin-bottom: 48px;
+		h4 {
+			float: left;
+			width: 300px;
+			line-height: 48px;
+		}
+		.input,
+		h4 {
+			margin-top: 24px;
+		}
+		h4,
+		.primary_button {
+			margin-top: 24px;
+		}
+		.fml,
+		.primary_button {
+			margin-left: 300px;
+		}
+	}
+	table.helprequests {
+		width: 1000px;
+		border-collapse: collapse;
+		margin-left: -20px;
+		tr {
+			cursor: pointer;
+			th {
+				text-align: left;
+				padding: 0 20px 20px 20px;
+			}
+			td {
+				border-collapse: collapse;
+				padding: 20px;
+				border: 0;
+				border-bottom: 1px solid #eee;
+				line-height: 48px;
+				vertical-align: top;
+				color: #444;
+				h4 {
+					line-height: 24px;
+				}
+				h5 {
+					line-height: 24px;
+				}
+			}
+			& + tr:hover {
+				background: #f6f6f6;
+			}
+		}
+	}
 }
 .jp_overlay {
 	background: rgba(232,232,232,.8);
