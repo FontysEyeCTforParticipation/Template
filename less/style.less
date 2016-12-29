@@ -113,7 +113,7 @@ h6 {
 
 .input {
 	height: 46px;
-	width: 240px;
+	width: 360px;
 	background: none;
 	border: 0;
 	border-bottom: 2px solid @color;
@@ -124,6 +124,39 @@ h6 {
 	color: @color;
 	transition: border-bottom-color .5s;
 	display: block;
+	textarea& {
+		padding: 16px 0;
+	}
+	select& {
+		box-sizing: content-box;
+		color: #ccc;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		position: relative;
+		&:after {
+			content: "";
+			border-top: 10px solid red;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			position: absolute;
+			top: 50%;
+			right: 20px;
+			margin-top: -5px;
+		}
+		option {
+			padding: 0;
+			color: @color;
+		}
+		&:hover,
+		&:valid {
+			option:first-child {
+				display: none;
+			}
+		}
+		&:valid {
+			color: @color;
+		}
+	}
 	&:focus {
 		border-bottom-color: @color;
 	}
@@ -410,12 +443,28 @@ section.content {
 	background: rgba(232,232,232,.8);
 }
 .jp_popup {
-	width: 500px;
+	width: 400px;
 	background: #fff;
 	box-shadow: 0 2px 10px rgba(0,0,0,.1),
 				0 10px 30px rgba(0,0,0,.1);
 	outline: 1px #ccc;
 	outline: 1px rgba(0,0,0,.05);
+	.jp_title {
+		padding: 20px;
+	}
+	.jp_content {
+		padding: 0 20px;
+		.input + .input {
+			margin-top: 20px;
+		}
+	}
+	.jp_buttons {
+		padding-right: 10px;
+		button {
+			margin: 20px 10px;
+			float: right;
+		}
+	}
 	.jp_close {
 		margin: 20px;
 		border: 0;
@@ -451,12 +500,12 @@ section.content {
 		opacity: 1;
 	}
 	.jp_title h2 {
-		padding: 20px;
 		font-size: 32px;
 		line-height: 92px;
 	}
-	.jp_content ul {
-		li {
+	.jp_content {
+		padding: 0;
+		ul li {
 			list-style: none;
 			border-bottom: 1px solid #eee;
 			cursor: pointer;
@@ -506,13 +555,10 @@ section.content {
 	}
 }
 .chat_popup .jp_popup {
-	width: 500;
+	width: 500px;
 	.jp_title h3 {
-		padding: 0 20px;
 		padding-top: 2px;
 		font-size: 20px;
-		line-height: 64px;
-		height: 64px;
 		span {
 			text-transform: uppercase;
 			border: 1px solid @color;
@@ -527,6 +573,7 @@ section.content {
 	}
 	.jp_content {
 		width: 100%;
+		padding: 0;
 		ul.conversation {
 			height: 300px;
 			border-top: 1px solid #eee;

@@ -7,7 +7,7 @@ $(function() {
 			lastMessage: {
 				content: "Yo!",
 				user: "John Doe",
-				date: "2016-12-29T10:12:43.511Z"
+				date: new Date()
 			}
 		},
 		4523: {
@@ -16,7 +16,7 @@ $(function() {
 			lastMessage: {
 				content: "What about the deadline?",
 				user: "John Doe",
-				date: "2016-12-28T12:56:43.511Z"
+				date: new Date().setDate(new Date().getDate() - 1)
 			}
 		},
 		6786: {
@@ -73,6 +73,10 @@ $(function() {
 	};
 	
 	//Functions
+	function leadingZeros(number, length) {
+		return number.length < length ? leadingZeros("0" + number, length) : number;
+	}
+	
 	function chatsDataToHtml(data) {
 		var interviewHtml = "";
 		var html = "";
@@ -85,18 +89,18 @@ $(function() {
 		}
 		var data = dataArray.slice(0);
 		data.sort(function(a, b) {
-			return a.lastMessage.date < b.lastMessage.date ? 1 : -1;
+			return new Date(a.lastMessage.date) < new Date(b.lastMessage.date);
 		});
 		for(var x = 0; x < data.length; x++) {
 			var date = new Date(data[x].lastMessage.date);
 			var dateString;
 			var currentMonth = date.getMonth() == now.getMonth() && date.getFullYear() == now.getFullYear();
 			if(date.getDate() == now.getDate() && currentMonth) {
-				dateString = date.getHours() + ":" + (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+				dateString = leadingZeros(date.getHours().toString(), 2) + ":" + leadingZeros(date.getMinutes().toString(), 2);
 			} else if(date.getDate() == now.getDate() - 1 && currentMonth) {
 				dateString = "Gisteren";
 			} else {
-				dateString = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear().toString().substr(2,2);
+				dateString = leadingZeros(date.getDate().toString(), 2) + "-" + leadingZeros((date.getMonth() + 1).toString(), 2) + "-" + date.getFullYear().toString().substr(2,2);
 			}
 			html += "<li data-id=\"" + data[x].id + "\"><h5>" + (data[x].interview ? "<span>Kennismaken</span>" : "") + data[x].title + "</h5><p>" + data[x].lastMessage.content + "</p><time>" + dateString+ "</time></li>";
 		}
@@ -116,7 +120,7 @@ $(function() {
 				html += "<li class=\"date\"><time>" + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear() + "</time></li>";
 			}
 			lastDate = date;
-			html += "<li" + (name ? "" : " class=\"me\"") + ">" + (name && lastUser != user ? "<header>" + name + "</header>" : "") + "<time>" + date.getHours() + ":" + (date.getMinutes() < 10 ? "0" : "") + date.getMinutes() + "</time>" + data.messages[x].content + "</li>";
+			html += "<li" + (name ? "" : " class=\"me\"") + ">" + (name && lastUser != user ? "<header>" + name + "</header>" : "") + "<time>" + leadingZeros(date.getHours().toString(), 2) + ":" + leadingZeros(date.getMinutes().toString(), 2) + "</time>" + data.messages[x].content + "</li>";
 			lastUser = user;
 		}
 		return html;
@@ -180,6 +184,10 @@ $(function() {
 						popupTitle.trigger(event);
 						popupTitle.mouseup();
 					} else {
+						var count = 0;
+						for(x in chatPopups) {
+							count++;
+						}
 						chatPopups[id] = new jPopup({
 							title: "<h3>" + (chatsData[id].interview ? "<span>Kennismaken</span>" : "") + chatsData[id].title + "</h3>",
 							content: "<ul class=\"conversation\"></ul><div class=\"reply\"><div class=\"input_wrapper\"><input type=\"text\" class=\"input\" placeholder=\"Schrijf een bericht...\" /></div><button class=\"primary_button\">Versturen</button></div>",
@@ -187,6 +195,10 @@ $(function() {
 							classes: "chat_popup",
 							overlay: false,
 							freeze: false,
+							offset: {
+								x: count * 20,
+								y: count * -20
+							},
 							plugins: {
 								draggable: true
 							},
