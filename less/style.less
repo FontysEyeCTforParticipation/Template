@@ -75,6 +75,15 @@ html {
 	overflow-y: scroll;
 }
 
+body.chat_page {
+	@media screen and (max-width: 1599px) {
+		padding-right: 300px;
+	}
+	@media screen and (max-width: 1299px) {
+		padding-right: 0;
+	}
+}
+
 .h(@x) when (@x > 0) {
 	h@{x} {
 		font-size: 32px - (@x - 1) * 4;
@@ -254,13 +263,19 @@ p {
 				float: left;
 				margin-left: 16px;
 			}
+			.open_chat {
+				display: none;
+				@media screen and (max-width: 1299px) {
+					display: block;
+				}
+			}
 		}
 	}
 }
-section {
+section.content {
 	width: 960px;
 	margin: 0 auto;
-	header {
+	> header {
 		margin: 48px 0;
 		overflow: hidden;
 		h1,
@@ -423,10 +438,14 @@ section {
 }
 .chats_popup .jp_popup {
 	width: 300px;
-	margin-left: 300px;
+	margin-left: 320px;
 	opacity: 0;
-	transition: margin-left .3s,
-				opacity .3s;
+	background-clip: padding-box;
+	overflow-y: auto;
+	@media screen and (max-width: 1299px) {
+		transition: margin-left .3s,
+					opacity .3s;
+	}
 	&.open {
 		margin-left: 0;
 		opacity: 1;
@@ -438,23 +457,44 @@ section {
 	}
 	.jp_content ul {
 		li {
-			line-height: 40px;
 			list-style: none;
-			padding: 0 20px;
-			font-size: 16px;
-			color: #444;
 			border-bottom: 1px solid #eee;
 			cursor: pointer;
 			float: left;
 			width: 100%;
-			span {
-				text-transform: uppercase;
-				border: 1px solid @color;
-				color: @color;
+			padding: 20px 0;
+			position: relative;
+			h5 {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				line-height: 32px;
+				padding: 0 20px;
+				span {
+					text-transform: uppercase;
+					border: 1px solid @color;
+					color: @color;
+					font-size: 12px;
+					line-height: 12px;
+					font-weight: 700;
+					padding: 5px;
+					margin-right: 6px;
+				}
+			}
+			p {
+				margin: 0;
+				padding: 10px 80px 0 20px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			time {
+				position: absolute;
+				bottom: 20px;
+				right: 20px;
 				font-size: 12px;
 				font-weight: 700;
-				padding: 5px;
-				margin-right: 6px;
+				color: #777;
 			}
 			&:first-child {
 				border-top: 1px solid #eee;
@@ -466,6 +506,7 @@ section {
 	}
 }
 .chat_popup .jp_popup {
+	width: 500;
 	.jp_title h3 {
 		padding: 0 20px;
 		padding-top: 2px;
@@ -497,10 +538,9 @@ section {
 				clear: both;
 				background: #eee;
 				line-height: 24px;
-				padding: 10px 100px 10px 10px;
+				padding: 10px 50px 10px 10px;
 				margin: 0 20px 10px 20px;
 				position: relative;
-				min-width: 50%;
 				list-style: none;
 				color: #444;
 				color: rgba(0,0,0,.9);
