@@ -190,7 +190,11 @@ $(function() {
 						}
 						chatPopups[id] = new jPopup({
 							title: "<h3>" + (chatsData[id].interview ? "<span>Kennismaken</span>" : "") + chatsData[id].title + "</h3>",
-							content: "<ul class=\"conversation\"></ul><div class=\"reply\"><div class=\"input_wrapper\"><input type=\"text\" class=\"input\" placeholder=\"Schrijf een bericht...\" /></div><button class=\"primary_button\">Versturen</button></div>",
+							content: "<ul class=\"conversation\"></ul>"
+									+"<div class=\"reply\">"
+										+"<textarea class=\"input\" rows=\"1\" placeholder=\"Schrijf een bericht...\"></textarea>"
+										+"<button class=\"primary_button\"><i class=\"material-icons\">&#xE163;</i></button>"
+									+"</div>",
 							closeButton: true,
 							classes: "chat_popup",
 							overlay: false,
@@ -208,9 +212,19 @@ $(function() {
 									var conversation = this.elements.content.children(".conversation");
 									conversation.html(conversationToHtml(conversationData));
 									conversation.scrollTop(conversation[0].scrollHeight);
+									autosize(this.elements.content.children(".reply").children(".input")).on("autosize:resized", function() {
+										var offset = s.offset();
+										s.position("center");
+										s.offset(offset);
+									});
 									return s;
 								},
 								close: function() {
+									var self = this;
+									this.elements.content.children(".reply").children(".input").off("autosize:resized");
+									setTimeout(function() {
+										autosize.destroy(self.elements.content.children(".reply").children(".input"));
+									}, this.speed());
 									delete chatPopups[id];
 									return jPopup._super(this);
 								}
