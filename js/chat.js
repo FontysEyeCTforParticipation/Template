@@ -72,11 +72,7 @@ $(function() {
 		]
 	};
 	
-	//Functions
-	function leadingZeros(number, length) {
-		return number.length < length ? leadingZeros("0" + number, length) : number;
-	}
-	
+	//Functions	
 	function chatsDataToHtml(data) {
 		var interviewHtml = "";
 		var html = "";
@@ -89,7 +85,7 @@ $(function() {
 		}
 		var data = dataArray.slice(0);
 		data.sort(function(a, b) {
-			return new Date(a.lastMessage.date) < new Date(b.lastMessage.date);
+			return new Date(a.lastMessage.date) < new Date(b.lastMessage.date) ? 1 : -1;
 		});
 		for(var x = 0; x < data.length; x++) {
 			var date = new Date(data[x].lastMessage.date);
@@ -102,7 +98,7 @@ $(function() {
 			} else {
 				dateString = leadingZeros(date.getDate().toString(), 2) + "-" + leadingZeros((date.getMonth() + 1).toString(), 2) + "-" + date.getFullYear().toString().substr(2,2);
 			}
-			html += "<li data-id=\"" + data[x].id + "\"><h5>" + (data[x].interview ? "<span>Kennismaken</span>" : "") + data[x].title + "</h5><p>" + data[x].lastMessage.content + "</p><time>" + dateString+ "</time></li>";
+			html += "<li data-id=\"" + data[x].id + "\"><h5>" + (data[x].interview ? "<span class=\"interview\">Kennismaken</span>" : "") + data[x].title + "</h5><p>" + data[x].lastMessage.content + "</p><time>" + dateString+ "</time></li>";
 		}
 		return html;
 	}
@@ -120,7 +116,7 @@ $(function() {
 				html += "<li class=\"date\"><time>" + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear() + "</time></li>";
 			}
 			lastDate = date;
-			html += "<li" + (name ? "" : " class=\"me\"") + ">" + (name && lastUser != user ? "<header>" + name + "</header>" : "") + "<time>" + leadingZeros(date.getHours().toString(), 2) + ":" + leadingZeros(date.getMinutes().toString(), 2) + "</time>" + data.messages[x].content + "</li>";
+			html += "<li" + (name ? "" : " class=\"me\"") + ">" + (name && lastUser != user ? "<header>" + name + "</header>" : "") + "<time>" + leadingZeros(date.getHours().toString(), 2) + ":" + leadingZeros(date.getMinutes().toString(), 2) + "</time>" + nl2br(data.messages[x].content) + "</li>";
 			lastUser = user;
 		}
 		return html;
@@ -174,22 +170,14 @@ $(function() {
 				this.elements.content.children("ul").on("click", "li", function() {
 					var id = $(this).data("id");		
 					if(id in chatPopups) {
-						var popupTitle = chatPopups[id].elements.title;
-						var offset = popupTitle.offset();
-						var event = $.Event( "mousedown", {
-							which: 1,
-							pageX: offset.left,
-							pageY: offset.top
-						});
-						popupTitle.trigger(event);
-						popupTitle.mouseup();
+						chatPopups[id]._zIndex();
 					} else {
 						var count = 0;
 						for(x in chatPopups) {
 							count++;
 						}
 						chatPopups[id] = new jPopup({
-							title: "<h3>" + (chatsData[id].interview ? "<span>Kennismaken</span>" : "") + chatsData[id].title + "</h3>",
+							title: "<h3>" + (chatsData[id].interview ? "<span class=\"interview\">Kennismaken</span>" : "") + chatsData[id].title + "</h3>",
 							content: "<ul class=\"conversation\"></ul>"
 									+"<div class=\"reply\">"
 										+"<textarea class=\"input\" rows=\"1\" placeholder=\"Schrijf een bericht...\"></textarea>"

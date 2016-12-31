@@ -79,9 +79,10 @@ html {
 }
 
 body {
-	min-height: 100%;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
+	height: 100%;
 	&.chat_page {
 		@media screen and (max-width: (@desktop + 639px)) {
 			padding-right: 300px;
@@ -96,6 +97,34 @@ body {
 	h@{x} {
 		font-size: 32px - (@x - 1) * 4;
 		color: lighten(@color, (@x - 1) * 5%);
+		span {
+			font-size: 12px;
+			text-transform: uppercase;
+			font-weight: 700;
+			padding: 6px;
+			margin-right: 6px;
+			float: left;
+			color: #fff;
+			line-height: 12px;
+			&.urgency_low {
+				background: #ffff00;
+				color: #444;
+			}
+			&.urgency_normal {
+				background: #ff8000;
+			}
+			&.urgency_critical {
+				background: #ff0000;
+			}
+			&.closed {
+				background: #777;
+			}
+			&.interview {
+				color: @color;
+				border: 1px solid @color;
+				padding: 5px;
+			}
+		}
 	}
 	.h(@x - 1);
 }
@@ -117,6 +146,13 @@ h5 {
 
 h6 {
 	font-weight: 700;
+}
+
+h3,
+h4,
+h5,
+h6 {
+	line-height: 23px;
 }
 
 .input {
@@ -250,6 +286,7 @@ p {
 #header {
 	background: #eee;
 	background: svg-gradient(to right, desaturate(lighten(@color, 50%), 20%), #eee);
+	flex-shrink: 0;
 	.header-content {
 		width: @desktop;
 		margin: 0 auto;
@@ -332,10 +369,10 @@ p {
 		}
 	}
 }
-section.content {
+#content {
 	width: @desktop;
 	margin: 0 auto;
-	flex: 1;
+	flex: 1 0 auto;
 	@media screen and (max-width: (@desktop + 60px)) {
 		width: ~"calc(100% - 40px)";
 	}
@@ -410,28 +447,6 @@ section.content {
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;
-					span {
-						font-size: 12px;
-						text-transform: uppercase;
-						font-weight: 700;
-						padding: 5px;
-						margin-right: 6px;
-						float: left;
-						color: #fff;
-						&.urgency_low {
-							background: #ffff00;
-							color: #444;
-						}
-						&.urgency_normal {
-							background: #ff8000;
-						}
-						&.urgency_critical {
-							background: #ff0000;
-						}
-						&.closed {
-							background: #777;
-						}
-					}
 				}
 				h5 {
 					line-height: 24px;
@@ -480,6 +495,7 @@ section.content {
 #footer {
 	background: #eee;
 	background: svg-gradient(to right, desaturate(lighten(@color, 50%), 20%), #eee);
+	flex-shrink: 0;
 	.footer_container {
 		width: @desktop;
 		margin: 0 auto;
@@ -551,6 +567,44 @@ section.content {
 		}
 	}
 }
+.helprequest_manage_popup .jp_popup {
+	width: 600px;
+	.jp_content {
+		padding: 0;
+		ul.tabs {
+			border-bottom: 1px solid #eee;
+			width: 100%;
+			padding: 0 20px;
+			float: left;
+			clear: both;
+			li {
+				float: left;
+				list-style: none;
+				margin: 0 32px -1px 0;
+				color: #777;
+				font-weight: 700;
+				line-height: 64px;
+				font-size: 14px;
+				text-transform: uppercase;
+				cursor: pointer;
+				&.current {
+					color: @color;
+					border-bottom: 2px solid @color;
+				}
+			}
+		}
+		div.info {
+			overflow-y: auto;
+			padding: 20px;
+			padding-bottom: 0;
+			max-height: 300px;
+			border-bottom: 1px solid #eee;
+		}
+		ul.applications {
+			display: none;
+		}
+	}
+}
 .chats_popup .jp_popup {
 	width: 300px;
 	margin-left: 320px;
@@ -583,19 +637,7 @@ section.content {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
-				line-height: 32px;
 				padding: 0 20px;
-				span {
-					text-transform: uppercase;
-					border: 1px solid @color;
-					color: @color;
-					font-size: 12px;
-					line-height: 12px;
-					font-weight: 700;
-					padding: 5px;
-					margin: 4px 5px 4px 0;
-					float: left;
-				}
 			}
 			p {
 				margin: 0;
@@ -629,16 +671,6 @@ section.content {
 		overflow: hidden;
 		padding-right: 25px;
 		text-overflow: ellipsis;
-		span {
-			text-transform: uppercase;
-			border: 1px solid @color;
-			color: @color;
-			font-size: 12px;
-			font-weight: 700;
-			padding: 5px;
-			margin-right: 6px;
-			float: left;
-		}
 	}
 	.jp_content {
 		width: 100%;
