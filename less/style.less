@@ -124,6 +124,11 @@ body {
 				border: 1px solid @color;
 				padding: 5px;
 			}
+			&.approved {
+				color: #00e100;
+				border: 1px solid #00e100;
+				padding: 5px;
+			}
 		}
 	}
 	.h(@x - 1);
@@ -229,6 +234,11 @@ h6 {
 	}
 	&:active {
 		background: #bbb;
+	}
+	&[disabled] {
+		background: #eee !important;
+		color: #ccc !important;
+		pointer-events: none;
 	}
 	.material-icons {
 		float: left;
@@ -567,6 +577,16 @@ p {
 		}
 	}
 }
+.helprequest_edit_popup .jp_popup {
+	width: 600px;
+	.jp_content {
+		input,
+		select,
+		textarea {
+			width: 100%;
+		}
+	}
+}
 .helprequest_manage_popup .jp_popup {
 	width: 600px;
 	.jp_content {
@@ -593,15 +613,55 @@ p {
 				}
 			}
 		}
-		div.info {
+		.info,
+		.applications {
 			overflow-y: auto;
 			padding: 20px;
 			padding-bottom: 0;
-			max-height: 300px;
+			height: 300px;
 			border-bottom: 1px solid #eee;
 		}
-		ul.applications {
+		.applications {
 			display: none;
+			padding: 0;
+			width: 100%;
+			height: 320px;
+			float: left;
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				tr {
+					th {
+						text-align: left;
+						padding: 20px;
+					}
+					td {
+						white-space: nowrap;
+						padding: 10px 20px;
+						border-bottom: 1px solid #eee;
+						&:first-child {
+							width: 100%;
+						}
+						&:last-child {
+							text-align: right;
+						}
+						h4 {
+							text-overflow: ellipsis;
+							overflow: hidden;
+							white-space: nowrap;
+						}
+						time {
+							color: #444;
+						}
+						button {
+							display: inline-block;
+						}
+					}
+					&:last-child td {
+						border: 0;
+					}
+				}
+			}
 		}
 	}
 }
