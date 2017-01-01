@@ -11,8 +11,8 @@ $(function() {
 	//Helprequests
 	var helprequestManageData = {
 		id: 3243,
-		title: "Example A",
-		urgency: 1,
+		title: "Example D",
+		urgency: 2,
 		location: "Eindhoven",
 		content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla erit controversia. Hunc vos beatum; Zenonis est, inquam, hoc Stoici. Tollenda est atque extrahenda radicitus. Duo Reges: constructio interrete.\n\n"
 				+"Itaque ab his ordiamur. Nihil enim hoc differt. Minime vero, inquit ille, consentit. Quae cum dixisset, finem ille. Ego vero isti, inquam, permitto. Confecta res esset. Et nemo nimium beatus est\n\n."
@@ -23,7 +23,7 @@ $(function() {
 			{
 				id: 4324,
 				date: "2016-10-24T12:56:43.511Z",
-				status: 0,
+				status: 1,
 				user: {
 					id: 4252,
 					name: "Jane Doe"
@@ -41,7 +41,7 @@ $(function() {
 			{
 				id: 1433,
 				date: "2016-07-30T17:28:43.511Z",
-				status: 1,
+				status: 0,
 				user: {
 					id: 6454,
 					name: "John Smith"
@@ -67,24 +67,24 @@ $(function() {
 					urgency = "<span class=\"urgency_critical\">Zeer urgent</span>";
 					break;
 			}
-			return "<h3>" + (data.closed ? "<span class=\"closed\">Gesloten</span>" : "") + urgency + data.title + "</h3>";
+			return "<h3>" + (data.closed ? "<span class=\"closed\"><i class=\"material-icons\">&#xE897;</i><i>Gesloten</i></span>" : "") + urgency + data.title + "</h3>";
 		}
 		var statusButton = function(x) {
 			switch(x) {
 				case 0:
-					return "Kennismaken";
+					return "<i class=\"material-icons\">&#xE7FB;</i>Kennismaken";
 				case 1:
-					return "Goedkeuren";
+					return "<i class=\"material-icons\">&#xE5CA;</i>Goedkeuren";
 				case 2:
-					return "Afmelden";
+					return "<i class=\"material-icons\">&#xE5CD;</i>Afmelden";
 			}
 		};
 		var status = function(x) {
 			switch(x) {
 				case 1:
-					return "<span class=\"interview\">Kennismaken</span>";
+					return "<span class=\"interview\"><i class=\"material-icons\">&#xE7FB;</i><i>Kennismaken</i></span>";
 				case 2:
-					return "<span class=\"approved\">Goedgekeurd</span>";
+					return "<span class=\"approved\"><i class=\"material-icons\">&#xE5CA;</i><i>Goedgekeurd</i></span>";
 				default:
 					return "";
 			}
@@ -104,14 +104,17 @@ $(function() {
 								+"<td><button class=\"primary_button\"" + (approved && data.applications[x].status != 2 ? " disabled" : "") + ">" + statusButton(data.applications[x].status) + "</button></td>"
 							+"</tr>";
 		}
+		var closeButtonText = function() {
+			return data.closed ? "<i class=\"material-icons\">&#xE898;</i>Openen" : "<i class=\"material-icons\">&#xE899;</i>Sluiten"
+		}
 		var closeButton = new jPopup.button({
-			text: data.closed ? "Openen" : "Sluiten",
+			text: closeButtonText(),
 			classes: "button",
 			close: false,
 			onclick: function() {
 				console.log(closeButton);
 				data.closed = !data.closed;
-				closeButton.text(data.closed ? "Openen" : "Sluiten");
+				closeButton.text(closeButtonText());
 				closeButton._parents[0].title(title());
 			}
 		})
@@ -134,7 +137,7 @@ $(function() {
 			classes: "helprequest_manage_popup",
 			buttons: [
 				{
-					text: "Aanpassen",
+					text: "<i class=\"material-icons\">&#xE3C9;</i>Aanpassen",
 					classes: "primary_button",
 					close: false,
 					onclick: function() {

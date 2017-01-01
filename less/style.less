@@ -118,16 +118,31 @@ body {
 			}
 			&.closed {
 				background: #777;
+				& ~ span {
+					display: none;
+				}
 			}
 			&.interview {
+				background: @color;
+			}
+			&.interview_i {
 				color: @color;
 				border: 1px solid @color;
 				padding: 5px;
 			}
 			&.approved {
-				color: #00e100;
-				border: 1px solid #00e100;
-				padding: 5px;
+				background: #00c400;
+			}
+			& + span {
+				margin-left: -6px;
+			}
+			i {
+				font-size: 12px !important;
+				font-style: normal;
+				float: left;
+				& + i {
+					margin-left: 5px;
+				}
 			}
 		}
 	}
@@ -473,6 +488,47 @@ p {
 			}
 		}
 	}
+	table.aidworkers {
+		width: @desktop + 40px;
+		border-collapse: collapse;
+		margin: 48px -20px;
+		@media screen and (max-width: (@desktop + 60px)) {
+			width: ~"calc(100% + 40px)";
+		}
+		tr {
+			th {
+				text-align: left;
+				padding: 0 20px 20px 20px;
+			}
+			td {
+				border-collapse: collapse;
+				padding: 20px;
+				border: 0;
+				border-bottom: 1px solid #eee;
+				vertical-align: middle;
+				color: #444;
+				white-space: nowrap;
+				h4 {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				h5 {
+					line-height: 24px;
+				}
+				button {
+					width: 160px;
+					text-align: center;
+				}
+				&:first-child {
+					width: 100%;
+				}
+			}
+			&:last-child td {
+				border-bottom: 0;
+			}
+		}
+	}
 	ul.aidworkers {
 		margin: 24px -30px 48px -30px;
 		overflow: hidden;
@@ -655,6 +711,14 @@ p {
 						}
 						button {
 							display: inline-block;
+							padding-left: 48px;
+							position: relative;
+							width: 160px;
+							text-align: center;
+							i {
+								position: absolute;
+								left: 16px;
+							}
 						}
 					}
 					&:last-child td {
@@ -705,6 +769,11 @@ p {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
+				font-size: 14px;
+				b {
+					color: @color;
+					float: left;
+				}
 			}
 			time {
 				position: absolute;

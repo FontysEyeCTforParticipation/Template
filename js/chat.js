@@ -4,6 +4,7 @@ $(function() {
 		2134: {
 			title: "Example A",
 			interview: true,
+			user: "John Doe",
 			lastMessage: {
 				content: "Yo!",
 				user: "John Doe",
@@ -11,23 +12,24 @@ $(function() {
 			}
 		},
 		4523: {
-			title: "Example B",
+			title: "Example A",
 			interview: true,
+			user: "Jane Doe",
 			lastMessage: {
 				content: "What about the deadline?",
-				user: "John Doe",
+				user: "Jane Doe",
 				date: new Date().setDate(new Date().getDate() - 1)
 			}
 		},
 		6786: {
-			title: "Example C",
+			title: "Example B",
 			lastMessage: {
 				content: "Don't worry we're gonna miss the deadline.",
 				date: "2016-10-24T12:56:43.511Z"
 			}
 		},
 		1423: {
-			title: "Example D",
+			title: "Example C",
 			lastMessage: {
 				content: "???",
 				user: "John Doe",
@@ -98,7 +100,7 @@ $(function() {
 			} else {
 				dateString = leadingZeros(date.getDate().toString(), 2) + "-" + leadingZeros((date.getMonth() + 1).toString(), 2) + "-" + date.getFullYear().toString().substr(2,2);
 			}
-			html += "<li data-id=\"" + data[x].id + "\"><h5>" + (data[x].interview ? "<span class=\"interview\">Kennismaken</span>" : "") + data[x].title + "</h5><p>" + data[x].lastMessage.content + "</p><time>" + dateString+ "</time></li>";
+			html += "<li data-id=\"" + data[x].id + "\"><h5>" + (data[x].interview ? "<span class=\"interview_i\">" + data[x].user + "</span><span class=\"interview\"><i class=\"material-icons\">&#xE7FB;</i></span>" : "") + data[x].title + "</h5><p>" + (data[x].lastMessage.user ? "<b>" + data[x].lastMessage.user + "</b>: " : "") + data[x].lastMessage.content + "</p><time>" + dateString+ "</time></li>";
 		}
 		return html;
 	}
@@ -177,7 +179,7 @@ $(function() {
 							count++;
 						}
 						chatPopups[id] = new jPopup({
-							title: "<h3>" + (chatsData[id].interview ? "<span class=\"interview\">Kennismaken</span>" : "") + chatsData[id].title + "</h3>",
+							title: "<h3>" + (chatsData[id].interview ? "<span class=\"interview_i\">" + chatsData[id].user + "</span><span class=\"interview\"><i class=\"material-icons\">&#xE7FB;</i><i>Kennnismaken</i></span>" : "") + chatsData[id].title + "</h3>",
 							content: "<ul class=\"conversation\"></ul>"
 									+"<div class=\"reply\">"
 										+"<textarea class=\"input\" rows=\"1\" placeholder=\"Schrijf een bericht...\"></textarea>"
