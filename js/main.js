@@ -7,7 +7,69 @@ function nl2br(str) {
 	return str.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, "$1"+ "<br />" +"$2");
 }
 
+function popupTabs(self, method) {
+	self.elements.content.children(".tabs").children().click(function() {
+		var tab = $(this).data("tab");
+		$(this).parent().children().removeClass("current").end().end().addClass("current");
+		self.elements.content.children(":not(.tabs)").hide().end().children("[data-tab=" + tab + "]").show();
+		if(method) {
+			method(tab);
+		}
+	});
+	
+	self.elements.content.children("[data-tab=" + self.elements.content.children(".tabs").children(".current").data("tab") + "]").show();
+}
+
 $(function() {
+	//Login
+	$(".login").click(function() {
+		var passwordButtons = [
+			{
+				text: "Inloggen",
+				classes: "primary_button",
+				value: true
+			},
+			{
+				text: "Wachtwoord vergeten?",
+				classes: "button"
+			}
+		];
+		new jPopup({
+			title: "<h3>Inloggen</h3>",
+			content: "<ul class=\"tabs\">"
+						+"<li class=\"current\" data-tab=\"rfid\">RFID</li>"
+						+"<li data-tab=\"password\">Wachtwoord</li>"
+					+"</ul>"
+					+"<article data-tab=\"rfid\">"
+						+"<i class=\"material-icons\">&#xE870;</i>"
+						+"<p>Hou de pas bij de scanner om in te loggen.</p>"
+					+"</article>"
+					+"<article data-tab=\"password\">"
+						+"<input type=\"text\" class=\"input\" placeholder=\"E-mailadres\" />"
+						+"<input type=\"password\" class=\"input\" placeholder=\"Password\" />"
+					+"</article>",
+			closeButton: true,
+			classes: "login_popup",
+			overrides: {
+				open: function() {
+					var self = this;
+					popupTabs(this, function(tab) {
+						if(tab == "password") {
+							self.buttons(passwordButtons);
+						} else {
+							self.buttons([]);
+						}
+					});
+					return jPopup._super(this);
+				}
+			}
+		}).open(function(r) {
+			if(r) {
+				window.location.href = "helpseeker/helprequests.html"
+			}
+		});
+	});
+	
 	//Helprequests
 	var helprequestManageData = {
 		id: 3243,
@@ -121,18 +183,18 @@ $(function() {
 		return new jPopup({
 			title: title(),
 			content: "<ul class=\"tabs\">"
-						+"<li class=\"current info_tab\">Info</li>"
-						+"<li class=\"applications_tab\">Aanmeldingen</li>"
+						+"<li class=\"current\" data-tab=\"info\">Info</li>"
+						+"<li data-tab=\"applications\">Aanmeldingen</li>"
 					+"</ul>"
-					+"<div class=\"info\">"
+					+"<article class=\"info\" data-tab=\"info\">"
 						+(data.location ? "<h4>Locatie</h4>" : "")
 						+(data.location ? "<p>" + data.location + "</p>" : "")
 						+"<h4>Inhoud</h4>"
 						+"<p>" + nl2br(data.content) + "</p>"
-					+"</div>"
-					+"<div class=\"applications\">"
+					+"</article>"
+					+"<article class=\"applications\" data-tab=\"applications\">"
 						+"<table>" + applications + "</table>"
-					+"</div>",
+					+"</article>",
 			closeButton: true,
 			classes: "helprequest_manage_popup",
 			buttons: [
@@ -162,30 +224,19 @@ $(function() {
 				closeButton
 			],
 			overrides: {
-				open: function() {
+				_create: function() {
 					var s = jPopup._super(this);
-					
-					this.elements.content.children(".tabs").children().click(function() {
-						$(this).parent().children().removeClass("current").end().end().addClass("current");
-					});
-					
-					this.elements.content.children(".tabs").children(".info_tab").click(function() {
-						s.elements.content.children(".applications").hide();
-						s.elements.content.children(".info").show();
-					});
-					
-					this.elements.content.children(".tabs").children(".applications_tab").click(function() {
-						s.elements.content.children(".info").hide();
-						s.elements.content.children(".applications").show();
-					});
-					
+					popupTabs(this);
+					return s;
+				},
+				open: function() {
+					var self = this;
 					this.elements.content.children(".applications").find("button").click(function() {
 						for(var x = 0; x < data.applications.length; x++) {
 							if(data.applications[x].id == $(this).parent().parent().data("id")) {
 								data.applications[x].status = data.applications[x].status == 2 ? 0 : data.applications[x].status + 1;
-								console.log(data.applications[x].status);
 								if(data.applications[x].status == 0 || data.applications[x].status == 2) {
-									s.elements.content.children(".applications").find("h4").children("span").remove();
+									self.elements.content.children(".applications").find("h4").children("span").remove();
 								}
 								if(data.applications[x].status == 1) {
 									$(this).parent().parent().find("h4").html(status(1) + data.applications[x].user.name);
@@ -196,17 +247,17 @@ $(function() {
 											data.applications[y].status = 0;
 										}
 									}
-									s.elements.content.children(".applications").find("button").html(statusButton(0)).prop("disabled", true);
+									self.elements.content.children(".applications").find("button").html(statusButton(0)).prop("disabled", true);
 									$(this).parent().parent().find("h4").html(status(2) + data.applications[x].user.name);
 								}
 								if(data.applications[x].status == 0) {
-									s.elements.content.children(".applications").find("button").prop("disabled", false);
+									self.elements.content.children(".applications").find("button").prop("disabled", false);
 								}
 								$(this).html(statusButton(data.applications[x].status)).prop("disabled", false);
 							}
 						}
 					});
-					return s;
+					return jPopup._super(this);;
 				}
 			}
 		});
