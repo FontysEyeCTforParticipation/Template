@@ -224,13 +224,9 @@ $(function() {
 				closeButton
 			],
 			overrides: {
-				_create: function() {
-					var s = jPopup._super(this);
-					popupTabs(this);
-					return s;
-				},
 				open: function() {
 					var self = this;
+					popupTabs(this);
 					this.elements.content.children(".applications").find("button").click(function() {
 						for(var x = 0; x < data.applications.length; x++) {
 							if(data.applications[x].id == $(this).parent().parent().data("id")) {
