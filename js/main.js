@@ -305,7 +305,7 @@ $(function() {
 		return popup;
 	}
 	
-	$("table.helprequests").on("click", "tr", function() {
+	$("table.helprequests").on("click", "tr:not(:first-child)", function() {
 		helprequestManagePopup(helprequestManageData).open();
 	});
 	

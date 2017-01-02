@@ -131,6 +131,9 @@ body {
 			&.approved {
 				background: #00c400;
 			}
+			&.applied {
+				background: lighten(@color, 20%);
+			}
 			& + span {
 				margin-left: -6px;
 			}
@@ -192,7 +195,7 @@ h6 {
 	}
 	select& {
 		box-sizing: content-box;
-		color: #ccc;
+		color: #bbb;
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		position: relative;
@@ -202,7 +205,7 @@ h6 {
 		}
 		&:hover,
 		&:valid {
-			option:first-child {
+			option[disabled]:first-child {
 				display: none;
 			}
 		}
@@ -214,16 +217,45 @@ h6 {
 		border-bottom-color: @color;
 	}
 	&::-webkit-input-placeholder {
-	  color: #ccc;
+	  color: #bbb;
 	}
 	&::-moz-placeholder {
-	  color: #ccc;
+	  color: #bbb;
 	}
 	&:-ms-input-placeholder {
-	  color: #ccc;
+	  color: #bbb;
 	}
 	&:-moz-placeholder {
-	  color: #ccc;
+	  color: #bbb;
+	}
+}
+
+.check {
+	color: #444;
+	line-height: 48px;
+	display: block;
+	cursor: pointer;
+	i {
+		float: left;
+		line-height: 48px;
+		margin: 0 5px 0 -3px;
+		color: #777;
+		&:nth-child(3) {
+			display: none;
+			color: @color;
+		}
+	}
+	input {
+		display: none;
+		&:checked {
+			& + i {
+				display: none;
+			}
+			& + i + i {
+				display: block !important;
+			}
+			
+		}
 	}
 }
 
@@ -442,6 +474,7 @@ p {
 		h5,
 		h6 {
 			float: left;
+			line-height: 48px;
 		}
 		div {
 			float: left;
@@ -452,10 +485,40 @@ p {
 			h5,
 			h6 {
 				clear: both;
+				line-height: 1;
 			}
 		}
 		button {
 			float: right;
+		}
+		.search_form {
+			margin: 0;
+			float: right;
+			.input {
+				float: left;
+				margin: 0 20px 0 0;
+			}
+			select {
+				width: auto;
+			}
+			.search_input {
+				width: 240px;
+			}
+			.postalcode_input {
+				width: 68px;
+				padding-right: 20px;
+				margin: 0;
+			}
+			button {
+				margin: 0;
+				float: left;
+				padding: 0;
+				i {
+					margin: 0;
+					width: 48px;
+					text-align: center;
+				}
+			}
 		}
 	}
 	form {
@@ -467,9 +530,7 @@ p {
 			height: 47px //Zoom fix
 		}
 		.input,
-		h4 {
-			margin-top: 24px;
-		}
+		.check,
 		h4,
 		.primary_button {
 			margin-top: 24px;
@@ -478,8 +539,13 @@ p {
 		.primary_button {
 			margin-left: 300px;
 		}
+		.check {
+			width: 360px;
+			overflow: hidden;
+		}
 	}
-	table.helprequests {
+	table.helprequests,
+	table.search_results {
 		width: @desktop + 40px;
 		border-collapse: collapse;
 		margin: 48px -20px;
@@ -487,7 +553,6 @@ p {
 			width: ~"calc(100% + 40px)";
 		}
 		tr {
-			cursor: pointer;
 			th {
 				text-align: left;
 				padding: 0 20px 20px 20px;
@@ -515,8 +580,11 @@ p {
 			&:last-child td {
 				border-bottom: 0;
 			}
-			& + tr:hover {
-				background: #f6f6f6;
+			& + tr {
+				cursor: pointer;
+				&:hover {
+					background: #f6f6f6;
+				}
 			}
 		}
 	}
@@ -586,6 +654,60 @@ p {
 			button {
 				float: left;
 				margin-top: 20px;
+			}
+		}
+	}
+	.pagination {
+		margin-bottom: 48px;
+		overflow: hidden;
+		ul {
+			border-bottom: 1px solid #eee;
+			float: right;
+			width: 100%;
+			li {
+				float: left;
+				list-style: none;
+				margin-bottom: -1px;
+				a,
+				span {
+					width: (@desktop - 136px) / 14;
+					float: left;
+					line-height: 48px;
+					height: 46px;
+					text-align: center;
+					text-decoration: none;
+					color: #444;
+					&.current {
+						border-bottom: 2px solid @color;
+						color: @color;
+						font-weight: 700;
+					}
+					&.prev,
+					&.next {
+						border: 0;
+						.button;
+						height: 48px;
+						padding: 0;
+						width: 48px;
+						i {
+							width: 48px;
+							text-align: center;
+						}
+					}
+					&.prev {
+						border-right: 20px solid #fff;
+					}
+					&.next {
+						border-left: 20px solid #fff;
+					}
+				}
+				&.disabled span {
+					background: #eee !important;
+					color: #ccc !important;
+				}
+				&:last-child {
+					float: right;
+				}
 			}
 		}
 	}
