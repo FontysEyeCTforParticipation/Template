@@ -134,7 +134,7 @@ $(function() {
 		]
 	};
 	
-	function helprequestPopup(data) {
+	function helprequestPopup(data, context) {
 		var applyText = function() {
 			return data.application && data.application.status < 3 ? "<i class=\"material-icons\">&#xE15B;</i>Afmelden" : "<i class=\"material-icons\">&#xE145;</i>Aanmelden";
 		};
@@ -143,16 +143,43 @@ $(function() {
 			classes: "primary_button",
 			close: false,
 			onclick: function() {
+				var self = this;
 				if(data.application && data.application.status < 3) {
-					data.application.status = 3;
+					new jPopup({
+						title: "<h3>Afmelden</h3>",
+						content: "<p>Weet je zeker dat je wilt afmelden van deze hulpvraag?</p>",
+						buttons: [
+							{
+								text: "Afmelden",
+								classes: "primary_button",
+								value: true
+							},
+							{
+								text: "Annuleren",
+								classes: "button"
+							}
+						]
+					}).open(function(r) {
+						if(r) {
+							data.application.status = 3;
+							applyButton.text(applyText());
+							self.title("<h3>" + title() + "</h3>");
+							$(context).children("td:first-child").children("h4").html("<h4>" + title() + "</h>");
+							if($(context).closest(".applications").length) {
+								$(context).hide();
+								self.close();
+							}
+						}
+					});
 				} else {
 					data.application = {
 						id: 5324,
 						status: 0
 					};
+					applyButton.text(applyText());
+					this.title("<h3>" + title() + "</h3>");
+					$(context).children("td:first-child").children("h4").html("<h4>" + title() + "</h3>");
 				}
-				applyButton.text(applyText());
-				this.title(title());
 			}
 		})
 		var title = function() {
@@ -181,11 +208,11 @@ $(function() {
 						break;
 				}
 			}
-			return "<h3>" + urgency + data.title + "</h3>";
+			return urgency + data.title;
 		}
 		var date = new Date(data.date);
 		return new jPopup({
-			title: title(),
+			title: "<h3>" + title() + "</h3>",
 			content: "<div class=\"info\">"
 						+"<h4>Gebruiker</h4>"
 						+"<p>" + data.user + "</p>"
@@ -396,7 +423,7 @@ $(function() {
 	}
 	
 	$("table.search_results").on("click", "tr:not(:first-child)", function() {
-		helprequestPopup(helprequestData).open();
+		helprequestPopup(helprequestData, this).open();
 	});
 	
 	$("table.helprequests").on("click", "tr:not(:first-child)", function() {
