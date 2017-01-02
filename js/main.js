@@ -171,13 +171,13 @@ $(function() {
 			if(data.application) {
 				switch(data.application.status) {
 					case 0:
-						urgency = "<span class=\"applied\">Aangemeld</span>";
+						urgency = "<span class=\"applied\"><i class=\"material-icons\">&#xE145;</i><i>Aangemeld</i></span>";
 						break;
 					case 1:
-						urgency = "<span class=\"interview\">Kennismaken</span>";
+						urgency = "<span class=\"interview\"><i class=\"material-icons\">&#xE7FB;</i><i>Kennismaken</i></span>";
 						break;
 					case 2:
-						urgency = "<span class=\"approved\">Goedgekeurd</span>";
+						urgency = "<span class=\"approved\"><i class=\"material-icons\">&#xE5CA;</i><i>Goedgekeurd</i></span>";
 						break;
 				}
 			}
