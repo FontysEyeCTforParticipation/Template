@@ -22,7 +22,7 @@ function popupTabs(self, method) {
 
 $(function() {
 	//Login
-	$(".login").click(function() {
+	function loginPopup() {
 		var passwordButtons = [
 			{
 				text: "Inloggen",
@@ -68,9 +68,31 @@ $(function() {
 				window.location.href = "helpseeker/helprequests.html"
 			}
 		});
+	}
+	
+	$(".login").click(function() {
+		loginPopup();
 	});
 	
 	//Helprequests
+	var helprequestData = {
+		id: 3243,
+		title: "Example D",
+		urgency: 2,
+		location: "Eindhoven",
+		content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla erit controversia. Hunc vos beatum; Zenonis est, inquam, hoc Stoici. Tollenda est atque extrahenda radicitus. Duo Reges: constructio interrete.\n\n"
+				+"Itaque ab his ordiamur. Nihil enim hoc differt. Minime vero, inquit ille, consentit. Quae cum dixisset, finem ille. Ego vero isti, inquam, permitto. Confecta res esset. Et nemo nimium beatus est\n\n."
+				+"Qui convenit? Bonum valitudo: miser morbus. Sit enim idem caecus, debilis.\n\n"
+				+"Equidem, sed audistine modo de Carneade? Itaque ab his ordiamur. Tubulo putas dicere? Quid de Pythagora? Itaque fecimus. Quaerimus enim finem bonorum.\n\n"
+				+"Dici enim nihil potest verius. Dici enim nihil potest verius. Quaerimus enim finem bonorum.",
+		user: "Thomas Gladdines",
+		date: new Date(),
+		application: {
+			id: 5324,
+			status: 1
+		}
+	};
+	
 	var helprequestManageData = {
 		id: 3243,
 		title: "Example D",
@@ -111,6 +133,74 @@ $(function() {
 			}
 		]
 	};
+	
+	function helprequestPopup(data) {
+		var applyText = function() {
+			return data.application && data.application.status < 3 ? "<i class=\"material-icons\">&#xE15B;</i>Afmelden" : "<i class=\"material-icons\">&#xE145;</i>Aanmelden";
+		};
+		var applyButton = new jPopup.button({
+			text: applyText,
+			classes: "primary_button",
+			close: false,
+			onclick: function() {
+				if(data.application && data.application.status < 3) {
+					data.application.status = 3;
+				} else {
+					data.application = {
+						id: 5324,
+						status: 0
+					};
+				}
+				applyButton.text(applyText());
+				this.title(title());
+			}
+		})
+		var title = function() {
+			var urgency = "";
+			switch(data.urgency) {
+				case 1:
+					urgency = "<span class=\"urgency_low\">Belangrijk</span>";
+					break;
+				case 2:
+					urgency = "<span class=\"urgency_normal\">Urgent</span>";
+					break;
+				case 3:
+					urgency = "<span class=\"urgency_critical\">Zeer urgent</span>";
+					break;
+			}
+			if(data.application) {
+				switch(data.application.status) {
+					case 0:
+						urgency = "<span class=\"applied\">Aangemeld</span>";
+						break;
+					case 1:
+						urgency = "<span class=\"interview\">Kennismaken</span>";
+						break;
+					case 2:
+						urgency = "<span class=\"approved\">Goedgekeurd</span>";
+						break;
+				}
+			}
+			return "<h3>" + urgency + data.title + "</h3>";
+		}
+		var date = new Date(data.date);
+		return new jPopup({
+			title: title(),
+			content: "<div class=\"info\">"
+						+"<h4>Gebruiker</h4>"
+						+"<p>" + data.user + "</p>"
+						+"<h4>Datum</h4>"
+						+"<p>" + leadingZeros(date.getDate().toString(), 2) + "-" + leadingZeros((date.getMonth() + 1).toString(), 2) + "-"  + date.getFullYear() + "</p>"
+						+(data.location ? "<h4>Locatie</h4>" : "")
+						+(data.location ? "<p>" + data.location + "</p>" : "")
+					+"</div>"
+					+"<h4>Inhoud</h4>"
+					+"<p>" + nl2br(data.content) + "</p>",
+			closeButton: true,
+			classes: "helprequest_popup",
+			buttons: [applyButton]
+		});
+	}
 	
 	function helprequestManagePopup(data) {
 		data.applications.sort(function(a, b) {
@@ -304,6 +394,10 @@ $(function() {
 		}
 		return popup;
 	}
+	
+	$("table.search_results").on("click", "tr:not(:first-child)", function() {
+		helprequestPopup(helprequestData).open();
+	});
 	
 	$("table.helprequests").on("click", "tr:not(:first-child)", function() {
 		helprequestManagePopup(helprequestManageData).open();

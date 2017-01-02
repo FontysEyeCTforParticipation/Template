@@ -457,6 +457,7 @@ p {
 		}
 	}
 }
+
 #content {
 	width: @desktop;
 	margin: 0 auto;
@@ -712,6 +713,7 @@ p {
 		}
 	}
 }
+
 #footer {
 	background: #eee;
 	background: svg-gradient(to right, desaturate(lighten(@color, 50%), 20%), #eee);
@@ -742,9 +744,11 @@ p {
 		}
 	}
 }
+
 .jp_overlay {
 	background: rgba(232,232,232,.8);
 }
+
 .jp_popup {
 	width: 400px;
 	background: #fff;
@@ -812,6 +816,7 @@ p {
 		}
 	}
 }
+
 .login_popup .jp_popup {
 	.jp_content {
 		padding: 0;
@@ -838,6 +843,34 @@ p {
 		}
 	}
 }
+
+.helprequest_popup .jp_popup {
+	width: 600px;
+	.jp_content {
+		overflow-y: auto;
+		height: 300px;
+		border-top: 1px solid #eee;
+		padding: 20px;
+		padding-bottom: 0;
+		.info {
+			float: left;
+			width: 100%;
+			h4,
+			p {
+				line-height: 24px;
+				margin: 0 0 24px 0;
+			}
+			h4 {
+				float: left;
+				width: 120px;
+			}
+		}
+	}
+	.jp_buttons {
+		border-top: 1px solid #eee;
+	}
+}
+
 .helprequest_edit_popup .jp_popup {
 	width: 600px;
 	.jp_content {
@@ -848,6 +881,7 @@ p {
 		}
 	}
 }
+
 .helprequest_manage_popup .jp_popup {
 	width: 600px;
 	.jp_content {
