@@ -1,6 +1,7 @@
 /* Variables */
 @color: #3071a9;
 @desktop: 960px;
+@zoom: 1;
 
 /* Reset */
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
@@ -84,10 +85,10 @@ body {
 	flex-direction: column;
 	height: 100%;
 	&.chat_page {
-		@media screen and (max-width: (@desktop + 639px)) {
+		@media screen and (max-width: ((@desktop + 639px) * @zoom)) {
 			padding-right: 300px;
 		}
-		@media screen and (max-width: (@desktop + 339px)) {
+		@media screen and (max-width: ((@desktop + 339px) * @zoom)) {
 			padding-right: 0;
 		}
 	}
@@ -118,9 +119,6 @@ body {
 			}
 			&.closed {
 				background: #777;
-				& ~ span {
-					display: none;
-				}
 			}
 			&.interview {
 				background: @color;
@@ -284,6 +282,17 @@ h6 {
 	}
 }
 
+.light_button {
+	background: #eee;
+	color: #777;
+	&:hover {
+		background: #ddd;
+	}
+	&:active {
+		background: #ccc;
+	}
+}
+
 p {
 	color: #444;
 	line-height: 24px;
@@ -316,7 +325,7 @@ p {
 		width: @desktop;
 		margin: 0 auto;
 		position: relative;
-		@media screen and (max-width: (@desktop + 60px)) {
+		@media screen and (max-width: ((@desktop + 60px) * @zoom)) {
 			width: ~"calc(100% - 40px)";
 		}
 		h1 {
@@ -387,8 +396,30 @@ p {
 			}
 			.open_chat {
 				display: none;
-				@media screen and (max-width: (@desktop + 339px)) {
+				@media screen and (max-width: ((@desktop + 339px) * @zoom)) {
 					display: block;
+				}
+			}
+		}
+		.zoom {
+			position: absolute;
+			right: 0;
+			bottom: 20px;
+			div {
+				line-height: 48px;
+				float: left;
+				padding: 0 16px;
+				background: #ddd;
+				color: #777;
+				font-weight: 700;
+			}
+			button {
+				float: left;
+				padding: 0;
+				i {
+					margin: 0;
+					width: 48px;
+					text-align: center;
 				}
 			}
 		}
@@ -398,7 +429,7 @@ p {
 	width: @desktop;
 	margin: 0 auto;
 	flex: 1 0 auto;
-	@media screen and (max-width: (@desktop + 60px)) {
+	@media screen and (max-width: ((@desktop + 60px) * @zoom)) {
 		width: ~"calc(100% - 40px)";
 	}
 	> header {
@@ -433,6 +464,7 @@ p {
 			float: left;
 			width: 300px;
 			line-height: 48px;
+			height: 47px //Zoom fix
 		}
 		.input,
 		h4 {
@@ -451,7 +483,7 @@ p {
 		width: @desktop + 40px;
 		border-collapse: collapse;
 		margin: 48px -20px;
-		@media screen and (max-width: (@desktop + 60px)) {
+		@media screen and (max-width: ((@desktop + 60px) * @zoom)) {
 			width: ~"calc(100% + 40px)";
 		}
 		tr {
@@ -492,7 +524,7 @@ p {
 		width: @desktop + 40px;
 		border-collapse: collapse;
 		margin: 48px -20px;
-		@media screen and (max-width: (@desktop + 60px)) {
+		@media screen and (max-width: ((@desktop + 60px) * @zoom)) {
 			width: ~"calc(100% + 40px)";
 		}
 		tr {
@@ -566,7 +598,7 @@ p {
 		width: @desktop;
 		margin: 0 auto;
 		padding: 20px 0;
-		@media screen and (max-width: (@desktop + 60px)) {
+		@media screen and (max-width: ((@desktop + 60px) * @zoom)) {
 			width: auto;
 			padding: 20px;
 		}
@@ -677,6 +709,12 @@ p {
 			}
 		}
 	}
+	.jp_buttons {
+		.small_button {
+			float: left;
+			margin: 36px 0 20px 20px;
+		}
+	}
 }
 .helprequest_edit_popup .jp_popup {
 	width: 600px;
@@ -756,7 +794,7 @@ p {
 	opacity: 0;
 	background-clip: padding-box;
 	overflow-y: auto;
-	@media screen and (max-width: 1299px) {
+	@media screen and (max-width: ((@desktop + 339px) * @zoom)) {
 		transition: margin-left .3s,
 					opacity .3s;
 	}

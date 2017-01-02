@@ -31,7 +31,7 @@ $(function() {
 			},
 			{
 				text: "Wachtwoord vergeten?",
-				classes: "button"
+				classes: "button small_button light_button"
 			}
 		];
 		new jPopup({
@@ -129,7 +129,7 @@ $(function() {
 					urgency = "<span class=\"urgency_critical\">Zeer urgent</span>";
 					break;
 			}
-			return "<h3>" + (data.closed ? "<span class=\"closed\"><i class=\"material-icons\">&#xE897;</i><i>Gesloten</i></span>" : "") + urgency + data.title + "</h3>";
+			return "<h3>" + (data.closed ? "<span class=\"closed\"><i class=\"material-icons\">&#xE897;</i><i>Gesloten</i></span>" : urgency) + data.title + "</h3>";
 		}
 		var statusButton = function(x) {
 			switch(x) {
@@ -174,7 +174,6 @@ $(function() {
 			classes: "button",
 			close: false,
 			onclick: function() {
-				console.log(closeButton);
 				data.closed = !data.closed;
 				closeButton.text(closeButtonText());
 				closeButton._parents[0].title(title());
