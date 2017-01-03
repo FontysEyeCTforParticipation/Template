@@ -628,6 +628,12 @@ p {
 			&:last-child td {
 				border-bottom: 0;
 			}
+			& + tr {
+				cursor: pointer;
+				&:hover {
+					background: #f6f6f6;
+				}
+			}
 		}
 	}
 	ul.aidworkers {
@@ -844,6 +850,19 @@ p {
 	}
 }
 
+.user_popup .jp_popup {
+	.jp_content {
+		padding-top: 24px;
+		p {
+			i {
+				float: left;
+				color: @color;
+				margin-right: 5px;
+			}
+		}
+	}
+}
+
 .helprequest_popup .jp_popup {
 	width: 600px;
 	.jp_content {
@@ -902,6 +921,10 @@ p {
 				width: 100%;
 				border-collapse: collapse;
 				tr {
+					cursor: pointer;
+					&:hover {
+						background: #f6f6f6;
+					}
 					th {
 						text-align: left;
 						padding: 20px;

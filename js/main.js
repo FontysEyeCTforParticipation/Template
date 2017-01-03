@@ -74,6 +74,36 @@ $(function() {
 		loginPopup();
 	});
 	
+	//User
+	var userData = {
+		id: 4324,
+		name: "John Doe",
+		birthdate: "1995-03-30T12:56:43.511Z",
+		adres: "Eindhoven",
+		driversLicense: true,
+		car: true
+	};
+	
+	function userPopup(data) {
+		var age = Math.abs(new Date(new Date() - new Date(data.birthdate)).getFullYear() - 1970);
+		return new jPopup({
+			title: "<h3>" + data.name + "</h3>",
+			content: (data.birthdate ? "<h4>Leeftijd</h4>" : "")
+					+(data.birthdate ? "<p>" + age + " jaar</p>" : "")
+					+(data.adres ?" <h4>Adres</h4>" : "")
+					+(data.adres ? "<p>" + data.adres + "</p>" : "")
+					+(data.driversLicense ?" <h4>Rijbewijs</h4>" : "")
+					+(data.driversLicense ? "<p><i class=\"material-icons\">&#xE5CA;</i>Heeft een rijbewijs.</p>" : "")
+					+(data.car ? "<h4>Auto</h4>" : "")
+					+(data.car ? "<p><i class=\"material-icons\">&#xE5CA;</i>Heeft beschikking tot een auto.</p>" : ""),
+			closeButton: true,
+			classes: "user_popup",
+			plugins: {
+				draggable: true
+			}
+		});
+	}
+	
 	//Helprequests
 	var helprequestData = {
 		id: 3243,
@@ -229,7 +259,7 @@ $(function() {
 		});
 	}
 	
-	function helprequestManagePopup(data) {
+	function helprequestManagePopup(data, context) {
 		data.applications.sort(function(a, b) {
 			return new Date(a.date) < new Date(b.date) ? 1 : -1;
 		});
@@ -246,7 +276,7 @@ $(function() {
 					urgency = "<span class=\"urgency_critical\">Zeer urgent</span>";
 					break;
 			}
-			return "<h3>" + (data.closed ? "<span class=\"closed\"><i class=\"material-icons\">&#xE897;</i><i>Gesloten</i></span>" : urgency) + data.title + "</h3>";
+			return (data.closed ? "<span class=\"closed\"><i class=\"material-icons\">&#xE897;</i><i>Gesloten</i></span>" : urgency) + data.title;
 		}
 		var statusButton = function(x) {
 			switch(x) {
@@ -293,11 +323,14 @@ $(function() {
 			onclick: function() {
 				data.closed = !data.closed;
 				closeButton.text(closeButtonText());
-				closeButton._parents[0].title(title());
+				closeButton._parents[0].title("<h3>" + title() + "</h3>");
+				if(context) {
+					$(context).children("td:first-child").children("h4").html(title());
+				}
 			}
 		})
 		return new jPopup({
-			title: title(),
+			title: "<h3>" + title() + "</h3>",
 			content: "<ul class=\"tabs\">"
 						+"<li class=\"current\" data-tab=\"info\">Info</li>"
 						+"<li data-tab=\"applications\">Aanmeldingen</li>"
@@ -327,11 +360,15 @@ $(function() {
 								data.urgency = parseInt(0 + f.find(".urgency").val());
 								data.location = f.find(".location").val();
 								data.content = f.find(".content").val();
-								self.title(title());
+								self.title("<h3>" + title() + "</h3>");
 								self.elements.content.children(".info").html((data.location ? "<h4>Locatie</h4>" : "")
 																			+(data.location ? "<p>" + data.location + "</p>" : "")
 																			+"<h4>Inhoud</h4>"
 																			+"<p>" + nl2br(data.content) + "</p>");
+								if(context) {
+									$(context).children("td:first-child").children("h4").html(title());
+									$(context).children("td:last-child").html(data.location ? data.location : "-");
+								}
 							}
 							
 						});
@@ -343,7 +380,11 @@ $(function() {
 				open: function() {
 					var self = this;
 					popupTabs(this);
-					this.elements.content.children(".applications").find("button").click(function() {
+					this.elements.content.children(".applications").find("tr").click(function() {
+						userPopup(userData).open();
+					});
+					this.elements.content.children(".applications").find("button").click(function(e) {
+						e.stopPropagation();
 						for(var x = 0; x < data.applications.length; x++) {
 							if(data.applications[x].id == $(this).parent().parent().data("id")) {
 								data.applications[x].status = data.applications[x].status == 2 ? 0 : data.applications[x].status + 1;
@@ -427,7 +468,7 @@ $(function() {
 	});
 	
 	$("table.helprequests").on("click", "tr:not(:first-child)", function() {
-		helprequestManagePopup(helprequestManageData).open();
+		helprequestManagePopup(helprequestManageData, this).open();
 	});
 	
 	$(".add_helprequest").click(function() {
