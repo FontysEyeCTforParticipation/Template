@@ -327,13 +327,14 @@ $(function() {
 				if(context) {
 					$(context).children("td:first-child").children("h4").html(title());
 				}
+				closeButton._parents[0].elements.content.find(".tabs li:first-child").click().next().toggleClass("disabled");
 			}
 		})
 		return new jPopup({
 			title: "<h3>" + title() + "</h3>",
 			content: "<ul class=\"tabs\">"
 						+"<li class=\"current\" data-tab=\"info\">Info</li>"
-						+"<li data-tab=\"applications\">Aanmeldingen</li>"
+						+"<li data-tab=\"applications\"" + (data.closed ? " class=\"disabled\"" : "") + ">Aanmeldingen</li>"
 					+"</ul>"
 					+"<article class=\"info\" data-tab=\"info\">"
 						+(data.location ? "<h4>Locatie</h4>" : "")

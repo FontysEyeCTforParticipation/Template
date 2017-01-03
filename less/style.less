@@ -787,6 +787,10 @@ p {
 					color: @color;
 					border-bottom: 2px solid @color;
 				}
+				&.disabled {
+					color: #ccc;
+					pointer-events: none;
+				}
 			}
 			& ~ [data-tab] {
 				display: none;
